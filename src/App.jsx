@@ -39,16 +39,37 @@ const App = () => {
     }
   };
 
-  const editTodo = (id, title, description) => {
-    console.log(id)
-    console.log(title)
-    setEditId(id);
-    setEditInput(title);
-    setInput(title);  // Pre-fill the input with the current title
-    setDescription(description);  // Pre-fill the description
-  };
+  // const editTodo = (id, title, description) => {
+  //   console.log(id)
+  //   console.log(title)
+  //   setEditId(id);
+  //   setEditInput(title);
+  //   setInput(title);  // Pre-fill the input with the current title
+  //   setDescription(description);  // Pre-fill the description
+  //   // console.log(editId)
+  //   // console.log(editInput)
+  //   // console.log(input)
+  //   // console.log(description)
 
+  // };
+  const editTodo = (item) => {
+    console.log('ID:', item._id); // Log the ID
+    console.log('Title:', item.title); // Log the title
+  
+    setEditId(item._id); // Schedule editId state update
+    setInput(item.title); // Schedule input state update
+    setDescription(item.description); // Schedule description state update
+  
+    // Log the state updates in the next render cycle
+    setTimeout(() => {
+      console.log('Updated State - Edit ID:', editId);
+      console.log('Updated State - Input:', input);
+      console.log('Updated State - Description:', description);
+    }, 3000);
+  };
+  
   const updateTodo = async () => {
+    event.preventDefault();
     try {
       const response = await axios.put(`https://judicial-margarita-syedaabeerfatima-d1f9886e.koyeb.app/api/v1/todo/${editId}`, {
         title: input, // Use the current input for the title
@@ -139,7 +160,7 @@ const App = () => {
                   Delete
                 </button>
                 <button
-                  onClick={() => editTodo(item._id, item.title, item.description)}
+                  onClick={() => editTodo(item)}
                   className="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600"
                 >
                   Edit
